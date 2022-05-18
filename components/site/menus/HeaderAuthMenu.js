@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { AuthContext } from '../../../stores/authContext';
 
 export default function HeaderAuthMenu() {
-  const { user, login, logout, something} = useContext(AuthContext)
+  const { user, login, logout } = useContext(AuthContext)
   const click = () => {
     console.log("click")
     login()

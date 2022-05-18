@@ -44,7 +44,6 @@ export const AuthContextProvider = ({ children }) => {
   }, [])
 
   const login = () => {
-    console.log("I am here")
     netlifyIdentity.open()
   }
 
