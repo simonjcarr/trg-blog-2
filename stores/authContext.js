@@ -1,30 +1,63 @@
-import { createContext } from "react"
+import { createContext, useEffect, useState } from "react";
+import netlifyIdentity from "netlify-identity-widget";
 
-export default function authContext() {
-  const AuthContext = createContext({
+export const AuthContext = createContext({
     user: null,
-    initComplete: false,
-    login: () => {},
-    logout: () => {},
-  })
+    login: () => {
+      netlifyIdentity.open()
+    },
+    logout: () => {
+      netlifyIdentity.logout()
+    },
+    authReady: false
+});
 
-  const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null)
-    const [initComplete, setInitComplete] = useState(false)
-    const login = (user) => {
+export const AuthContextProvider = ({ children }) => {
+  const [user, setUser] = useState(null)
+  const [authReady, setAuthReady] = useState(false)
+
+  useEffect(() => {
+    console.log("Use effect")
+    netlifyIdentity.on('login', (user) => {
       setUser(user)
-    }
-    const logout = () => {
+      netlifyIdentity.close()
+    })
+
+    netlifyIdentity.on('logout', () => {
       setUser(null)
+      netlifyIdentity.close()
+    })
+
+    netlifyIdentity.on('init', (user) => {
+      console.log("netlify init", user)
+      setUser(user)
+      setAuthReady(true)
+    })
+    
+    netlifyIdentity.init()
+
+    return () => {
+      netlifyIdentity.off('login')
+      netlifyIdentity.off('logout')
+      netlifyIdentity.off('init')
     }
-    return (
-      <AuthContext.Provider value={{ user, initComplete, login, logout }}>
-        {children}
-      </AuthContext.Provider>
-    )
+  }, [])
+
+  const login = () => {
+    console.log("I am here")
+    netlifyIdentity.open()
   }
 
+  const logout = () => {
+    netlifyIdentity.logout()
+  }
+
+  const context = { user, login, logout, authReady }
+
   return (
-    <div>authContext</div>
+    <AuthContext.Provider value={context}>
+      {children}
+    </AuthContext.Provider>
   )
+
 }
