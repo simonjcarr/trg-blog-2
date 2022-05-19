@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { AuthContext } from '../../../stores/authContext';
 
 export default function HeaderAuthMenu() {
-  const { user, login, logout } = useContext(AuthContext)
+  const { authReady, user, login, logout } = useContext(AuthContext)
   const click = () => {
     console.log("click")
     login()
@@ -10,11 +10,11 @@ export default function HeaderAuthMenu() {
   }
   return (
     <>
-      <div className="flex space-x-2">
-        <div className="header-menu-link" onClick={click}>Register</div>
-        <div className="header-menu-link" onClick={login}>Login</div>
-        <div className="header-menu-link" onClick={logout}>Logout</div>
-      </div>
+      {authReady && <div className="flex space-x-2">
+        {!user && <div className="header-menu-link" onClick={click}>Register</div>}
+        {!user && <div className="header-menu-link" onClick={login}>Login</div>}
+        {user && <div className="header-menu-link" onClick={logout}>Logout</div>}
+      </div>}
     </>
   )
 }

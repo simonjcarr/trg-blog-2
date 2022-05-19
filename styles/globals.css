@@ -3,5 +3,5 @@
 @import 'tailwindcss/utilities';
 
 .header-menu-link {
-  @apply cursor-pointer border-2 border-brown-400 bg-brown-400 rounded px-2 hover:bg-opacity-0;
+  @apply cursor-pointer border-2 border-brown-600 bg-brown-600 rounded px-2 hover:bg-opacity-0;
 }
