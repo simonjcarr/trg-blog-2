@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
-      'brown': {
+      'primary': {
         '50': '#fcf5f4',
         '100': '#fae8e6',
         '200': '#f6d5d2',
@@ -18,6 +18,7 @@ module.exports = {
         '800': '#86352e',
         '900': '#70322c',
       },
+      'white': '#ffffff',
     }
   },
   plugins: [],
